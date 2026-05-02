@@ -90,8 +90,11 @@ id: n100
 name: <leaf name>
 purpose: <why this leaf exists>
 kind: leaf
-status: planned | building | done | dropped | open
-code_ref: <optional path/commit>
+status: planned | building | done | dropped | open | deferred
+code_ref: <optional: path/commit>
+last_verified: <optional: YYYY-MM-DD>
+review_after: <optional: YYYY-MM-DD>
+review_when: <optional: free-form trigger condition>
 ---
 
 # <Heading>
@@ -103,8 +106,28 @@ code_ref: <optional path/commit>
 
 - All files: `id`, `name`, `purpose`, `kind`.
 - Branches: `children` (may be empty array).
-- Leaves: `status`. Optional: `code_ref`.
+- Leaves: `status`.
 - Each entry in `children`: `ref`, `name`, `purpose`.
+
+## Optional leaf fields
+
+- `code_ref` — path, commit hash, build tag, or GitHub URL pointing
+  to the realized code. Format is project-local; document the choice
+  in a project-side leaf (see "Project-local rules" below).
+- `last_verified` — date the leaf was last checked against reality
+  (code, decisions, the world). Lets the operator find stale leaves
+  without reading their bodies. Recommended once a project crosses
+  ~30 leaves; optional below that.
+- `review_after` — a date after which the leaf should be revisited.
+  When the date passes, the leaf is treated as "due for review."
+  Useful for deferred decisions and reference material that may go
+  out of date.
+- `review_when` — free-form trigger condition (e.g. "memory has 30+
+  nodes", "after build-20"). Read by the LLM, evaluated heuristically.
+
+`last_verified` answers "is this still true?" `review_after` and
+`review_when` answer "should I look at this again?" They serve
+different purposes and can coexist.
 
 ## Minimal example
 
@@ -179,12 +202,31 @@ slot.
 The reader filters by what they are doing — designing, deciding,
 implementing, debugging — not only by domain.
 
+**Check for duplicates before creating a node (DRY).**
+Before creating a leaf about topic X, scan for existing leaves on the
+same topic. Two parallel leaves split attention and confuse navigation.
+
 ### Project-local rules
 
 Each project develops conventions specific to its domain. These
 should live in a leaf node inside the project's memory (e.g.
 `n802 — Purpose discipline`), not in this spec. New rules graduate
 to the spec only when they prove universal across projects.
+
+## Triggered nodes
+
+A leaf can include `review_after` or `review_when` in its frontmatter,
+and the same trigger should be echoed in the parent branch's `purpose`
+so an LLM walking the tree sees it without opening the leaf.
+
+Example parent purpose: `"reference for what to do as memory grows;
+revisit when memory has 30+ nodes or after 2026-08-31"`.
+
+While only one or two triggered nodes exist, this in-place pattern is
+sufficient. When triggers reach three or more — or any becomes critical
+— introduce a centralized **trigger registry** near the root
+(e.g. `triggers.md`), so any LLM entering memory sees overdue items
+at once. Until then, the registry is unnecessary overhead.
 
 ## What this spec deliberately does not include
 
@@ -195,6 +237,7 @@ to the spec only when they prove universal across projects.
 - Costs, weights, tags. Add to frontmatter when needed.
 - Renderer. Several formats are valid (Mermaid block, generated
   graph.html, Obsidian Canvas). Out of scope here.
+- Trigger registry format. To be specified when first project needs it.
 
 The spec is intentionally minimal. Extensions are introduced from
 practice, not anticipated upfront.
@@ -215,6 +258,10 @@ practice, not anticipated upfront.
 - **README must point to `memory/`.** The repo's top-level README is
   the discovery path. If it doesn't say "state lives in memory/",
   an LLM opening the repo has to guess.
+- **Triggered nodes need their trigger in the parent purpose.**
+  If the trigger lives only inside the leaf's frontmatter, an LLM
+  walking the tree by `purpose` will not see it and will not open
+  the leaf when due.
 - **UTF-8 BOM breaks Android resource files.** When generating XML
   from PowerShell, write without BOM (`UTF8Encoding($false)`).
   Not specific to memory format, but bites in practice.
