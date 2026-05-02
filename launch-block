@@ -7,6 +7,35 @@ deliberation ("how should we structure this", "what are the trade-offs").
 
 Used by: birdscope.
 
+## Mandatory for LLMs delivering changes
+
+If you are an LLM working on a project that lists this protocol, and the
+operator has asked you to **make changes** (write files, edit existing
+files, run commands, commit, deploy), you **must** deliver those changes
+as launch-blocks.
+
+These are **not acceptable** as delivery format:
+
+- Inline diff snippets ("add this line at row 47").
+- Prose descriptions of edits ("then update the manifest to register...").
+- Standalone code files presented for download without the integration
+  blocks that wire them into existing files.
+- "Here is what you should do:" lists.
+
+These are **acceptable**:
+
+- A single launch-block performing the whole operation.
+- A sequence of numbered launch-blocks with explicit checkpoints between
+  them, when the operation benefits from intermediate verification.
+- Files presented for download **alongside** a launch-block that copies
+  them into place and wires them into existing files.
+
+The operator works by pasting blocks into a shell. Anything that requires
+them to manually apply your description to source files breaks the workflow.
+
+If you do not know the operator's shell or platform, ask before generating
+the block. Do not assume.
+
 ## Why
 
 When working with an LLM on a real project, half the answers should
@@ -32,8 +61,8 @@ inspect state.
 deliberative: "how should we...", "what are the options...", "compare
 A and B", "explain why...". Answer in prose.
 
-The default is conversation. Switch to a launch block when the next
-step is a command the operator will run as-is.
+The default for delivery is launch-block. The default for discussion
+is prose. Switch between them based on what the operator is asking for.
 
 ## Anatomy
 
