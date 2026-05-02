@@ -33,9 +33,12 @@ each file before reading it.
    to other nodes). Markdown files are **leaves** (actual content,
    with YAML frontmatter holding metadata).
 
-4. **Reference by ID, not by filename.** Nodes link via `id`, not file
-   path. Renames don't break links. One node can be referenced from
-   multiple branches.
+4. **Reference by ID with explicit extension.** Each `ref` value
+   includes the file extension (`n023.json` or `n100.md`), not just
+   the bare ID. Renames don't break links because the ID part stays
+   stable, but the extension is required so any LLM fetching the file
+   over HTTP gets it on the first try, without guessing whether to
+   try `.json` or `.md`.
 
 5. **Every reference carries a purpose.** Each link inside a JSON
    includes a `purpose` field — a short description of why this child
@@ -68,7 +71,7 @@ each file before reading it.
   "kind": "branch",
   "children": [
     {
-      "ref": "n001",
+      "ref": "n001.json",
       "name": "<branch name>",
       "purpose": "<one-line: why descend here>"
     }
@@ -79,8 +82,8 @@ each file before reading it.
 ### Internal branch (any JSON other than root)
 
 Same shape as root, with its own `id` and `purpose`. Children may
-reference further branches or leaves — the LLM tells them apart by
-file extension (`.json` vs `.md`).
+reference further branches (`.json`) or leaves (`.md`); the extension
+in `ref` tells the reader which.
 
 ### Leaf (markdown with YAML frontmatter)
 
@@ -107,7 +110,7 @@ review_when: <optional: free-form trigger condition>
 - All files: `id`, `name`, `purpose`, `kind`.
 - Branches: `children` (may be empty array).
 - Leaves: `status`.
-- Each entry in `children`: `ref`, `name`, `purpose`.
+- Each entry in `children`: `ref` (with extension), `name`, `purpose`.
 
 ## Optional leaf fields
 
@@ -136,23 +139,25 @@ staleness matters.
 ## Minimal example
 
 ```
-root.json:    n000 -> [n001 (UI), n002 (data)]
-n001.json:    n001 (UI) -> [n100 (Main window, done)]
-n002.json:    n002 (data) -> [n200 (Pipeline, building)]
+root.json:    n000 -> [n001.json (UI), n002.json (data)]
+n001.json:    n001 (UI) -> [n100.md (Main window, done)]
+n002.json:    n002 (data) -> [n200.md (Pipeline, building)]
 n100.md:      ---id: n100, status: done--- # Main window ...
 n200.md:      ---id: n200, status: building--- # Pipeline ...
 ```
 
 Six files, flat folder. Operator sees a tree (rendered). LLM walks
-JSON, descends only by purpose, reads only needed leaves.
+JSON, descends only by purpose, reads only needed leaves, and uses
+the explicit extension in each `ref` to fetch the right file.
 
 ## How the LLM uses it
 
 1. Read `root.json` — see the project's branches.
 2. For each branch in `children`, read its `purpose`. Decide which
    to descend into.
-3. Open the chosen branch JSON. Repeat step 2 at the next level.
-4. At a leaf, read frontmatter first, then body if needed.
+3. Open the chosen child by `ref` (which includes the extension).
+   If the extension is `.json`, repeat step 2; if `.md`, read frontmatter
+   and then body if needed.
 
 A small task may need only the root. A focused task — one branch
 walk. Full read of all files is rare and usually unnecessary.
@@ -256,6 +261,10 @@ practice, not anticipated upfront.
 - **Don't omit `purpose` on links.** A link without `purpose` forces
   the LLM to open the child file to know if it's relevant. That breaks
   the laziness mechanism.
+- **Don't omit the extension on `ref`.** A `ref` without extension
+  forces the reader to guess `.json` vs `.md`. Confirmed in practice
+  to cause failed fetches even when the LLM is otherwise reading
+  carefully.
 - **Leaves are markdown, not JSON.** The frontmatter does the work a
   separate JSON file would do. Don't create paired `n100.json` +
   `n100.md` — it's redundant.
