@@ -5,7 +5,7 @@ The memory is a flat folder of files. JSON files describe meaning and
 navigation. Markdown files hold content. Any LLM can open the folder,
 read the root, descend by purpose, and continue work without prior chat.
 
-Used by: not yet — first applications pending.
+Used by: birdscope.
 
 ## Why
 
@@ -50,6 +50,11 @@ each file before reading it.
 7. **Single root.** The folder always contains exactly one
    `root.json` with `id: n000`. This is the entry point for any LLM
    opening the project.
+
+8. **README points to memory.** The repo's main README must tell any
+   LLM that project state lives in `memory/`, with `memory/root.json`
+   as the entry point. Without this pointer, the memory folder is
+   discoverable only by guessing.
 
 ## File shapes
 
@@ -142,6 +147,45 @@ crystallize. It is ready to do so quickly when asked. This keeps the
 memory thin: only what was worth fixing gets fixed. The rest stays
 in code, in chat, in the operator's head — as raw material.
 
+## Purpose discipline
+
+The `purpose` field is the laziness mechanism. The LLM reads it and
+decides whether to descend. If purposes are weak, the whole memory
+loses its efficiency: the LLM either skips nodes it should read, or
+opens nodes it does not need.
+
+Writing good purposes is a skill, not a one-shot task. The LLM cannot
+fully enforce it on its own — it can write reasonable text, but it
+will drift in style and miss staleness without external pressure.
+
+### Universal rules
+
+These apply across projects.
+
+**Tell when to read, not what is inside.**
+A purpose is a trigger condition for the reader, not a label of the
+content. Bad: `"FFT analyzer"`. Good: `"FFT pipeline; read when
+changing window size or output format"`.
+
+**One sentence, under 20 words.**
+Longer purposes drift into content. If more is needed, it belongs
+inside the leaf, not in the link.
+
+**Do not duplicate the `name` field.**
+The reader already saw `name`. Repeating it in `purpose` wastes the
+slot.
+
+**Mention the kind of work, not just the topic.**
+The reader filters by what they are doing — designing, deciding,
+implementing, debugging — not only by domain.
+
+### Project-local rules
+
+Each project develops conventions specific to its domain. These
+should live in a leaf node inside the project's memory (e.g.
+`n802 — Purpose discipline`), not in this spec. New rules graduate
+to the spec only when they prove universal across projects.
+
 ## What this spec deliberately does not include
 
 - Node subtypes inside leaves (decision / feature / question /
@@ -149,6 +193,8 @@ in code, in chat, in the operator's head — as raw material.
 - Cross-branch links beyond parent->child (alternative_to, supersedes,
   depends_on). Add as a `links` array in leaf frontmatter when needed.
 - Costs, weights, tags. Add to frontmatter when needed.
+- Renderer. Several formats are valid (Mermaid block, generated
+  graph.html, Obsidian Canvas). Out of scope here.
 
 The spec is intentionally minimal. Extensions are introduced from
 practice, not anticipated upfront.
@@ -166,3 +212,9 @@ practice, not anticipated upfront.
 - **Leaves are markdown, not JSON.** The frontmatter does the work a
   separate JSON file would do. Don't create paired `n100.json` +
   `n100.md` — it's redundant.
+- **README must point to `memory/`.** The repo's top-level README is
+  the discovery path. If it doesn't say "state lives in memory/",
+  an LLM opening the repo has to guess.
+- **UTF-8 BOM breaks Android resource files.** When generating XML
+  from PowerShell, write without BOM (`UTF8Encoding($false)`).
+  Not specific to memory format, but bites in practice.
