@@ -129,6 +129,10 @@ review_when: <optional: free-form trigger condition>
 `review_when` answer "should I look at this again?" They serve
 different purposes and can coexist.
 
+**All date fields follow `dates-discipline.md`** (separate protocol):
+never invent, source must be checkable, pair with a review plan if
+staleness matters.
+
 ## Minimal example
 
 ```
@@ -262,6 +266,8 @@ practice, not anticipated upfront.
   If the trigger lives only inside the leaf's frontmatter, an LLM
   walking the tree by `purpose` will not see it and will not open
   the leaf when due.
+- **Dates inside leaves must follow dates-discipline.md.**
+  No invented timestamps; checkable source; staleness needs a plan.
 - **UTF-8 BOM breaks Android resource files.** When generating XML
   from PowerShell, write without BOM (`UTF8Encoding($false)`).
   Not specific to memory format, but bites in practice.
