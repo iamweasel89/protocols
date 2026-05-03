@@ -7,7 +7,7 @@ repos don't duplicate them.
 
 ## Active mode
 
-**Current:** numbering (see `mode-numbering.md`) — control test of the mode-switching mechanism using a known-easy formatting rule. Mechanism explainer: `mode-default.md`.
+**Current:** default (see `mode-default.md`)
 
 Modes are named configurations of the protocol set, used when an
 experiment needs isolation from daily work. Switching modes is one
