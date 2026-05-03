@@ -7,6 +7,21 @@ read the root, descend by purpose, and continue work without prior chat.
 
 Used by: birdscope.
 
+
+## Intended reader
+
+The primary reader is an LLM entering the project without prior context.
+The format, the `purpose` triggers, the README chain, the seed URLs are
+all designed for that reader first.
+
+A second equally-served reader is **the operator a year from now** — by
+then no longer in possession of the context that produced the project.
+Anything that reads well to a fresh LLM also reads well to a future-self.
+
+Live human collaborators are a tertiary case. They consume the rendered
+view (`memory/overview.md` or similar), not the source files. Designing
+for them directly would compromise the first two readers.
+
 ## Why
 
 LLM chat is linear and forgets. Project state — what was decided,
