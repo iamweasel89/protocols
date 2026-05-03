@@ -138,6 +138,32 @@ the BOM as invalid input and fail with cryptic errors like
 `mismatched input '\uFEFF' expecting {COMMENT, ...}`. Confirmed in
 practice on the birdscope project.
 
+### Trap 3: markdown-paste contamination
+
+Some chat interfaces auto-linkify filenames and bare hostnames in copied
+text. A line containing `project-memory.md` may arrive in the operator's
+PowerShell as `[project-memory.md](http://project-memory.md)`, which
+PowerShell takes literally and fails with `FileNotFoundException`. The
+same happens to `System.IO`, which becomes `[System.IO](http://System.IO)`
+and breaks any `[System.IO.File]::...` call.
+
+This is invisible visually until pasted: the source shows `name.md` and
+the rendered chat shows `name.md`, but the clipboard contains the
+autolinked form. Confirmed in practice 2026-05-03.
+
+Mitigations:
+
+- **Operator side:** before running a pasted block, scan for `[`...`](`
+  patterns in the command text. If present, replace with the bare
+  filename. Cheapest, but easy to forget.
+- **LLM side:** prefer to wrap filenames in backticks inside the block
+  (`` `project-memory.md` ``). Backticks usually survive the autolinker.
+  Variables like `$path = "$PWD\project-memory.md"` and forms like
+  `[System.IO.File]::ReadAllText($path)` are also safer than bare names
+  in the command stream.
+- **Operator side, durable:** if a chat interface autolinks reliably,
+  paste through a plain-text intermediary (Notepad) before PowerShell.
+
 ### The safe approach
 
 Use a string array assembled with `-join`, then write the file via
