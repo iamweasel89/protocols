@@ -13,6 +13,10 @@ second equally-served reader is the operator a year from now; live
 human collaborators are a tertiary case and consume rendered views,
 not source files.
 
+**Read `agent-discipline.md` before anything else.** It governs how you
+work inside this system: distinguishing sources in your answers, when to
+break silence, when to propose a launch block, how to run probes.
+
 If the operator has asked you to **work on the memory concept itself**
 (refine the spec, log a fresh-session probe, queue meta-work),
 start at `project-memory.md`. Active instances using it are listed
@@ -31,7 +35,8 @@ If your fetch tool only follows URLs that appear in prior results,
 seed your fetcher with these:
 
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/project-memory.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/launch-block.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/launch-block.md
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/agent-discipline.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/conversation-format.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/dates-discipline.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/mobile-app-android.md?nocache=1
@@ -48,6 +53,9 @@ seed your fetcher with these:
   working on memory.
 - **`launch-block.md`** — ready-to-run console command format. Read
   first when delivering changes to any project.
+- **`agent-discipline.md`** — how the LLM behaves inside the system:
+  how to distinguish sources in answers, when to break silence, when to
+  propose a launch block, how to run probes. Read on entry to any session.
 - **`conversation-format.md`** — numbered messages, real timestamps,
   language matching, English corrections, simplification levels.
 - **`dates-discipline.md`** — honesty rules for any date written into
