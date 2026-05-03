@@ -251,4 +251,9 @@ checks the output, then proceeds to block 2.
 - **Don't generate launch blocks the operator cannot run.** If the
   operator is on Linux, do not write PowerShell. If you do not know
   the operator's shell, ask before writing the block.
+- **If a fetch inside a launch block fails (404, "URL not allowed",
+  etc.), do not report failure — try recovery first.** See
+  `fetching.md` for techniques (`refs/heads/main` URL form,
+  commit-SHA URL, blob-HTML extraction, request the operator to bust
+  cache via a contentful diff).
 
