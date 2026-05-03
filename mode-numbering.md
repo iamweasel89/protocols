@@ -43,4 +43,15 @@ specific complexity of any one mode.
 
 ## Resolution
 
-<Filled in when the mode ends.>
+Discarded 2026-05-04 after one iteration. Numbering prefix was not
+applied despite active mode pointer and explicit CRITICAL override.
+Run as a control test for `mode-json`: a known-easy formatting rule
+failed the same way as the JSON schema. Conclusion: file-pointer-
+based mode switching cannot override default response format,
+regardless of how simple or how directively phrased the override is.
+The reading happens; the activation does not.
+
+Mode mechanism remains valid for scope and focus changes (which
+protocols to read, what content to work on). Format changes require
+different infrastructure (multi-agent orchestration, direct prompt
+control per message, or a custom chat substrate).
