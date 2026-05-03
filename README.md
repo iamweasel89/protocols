@@ -24,15 +24,15 @@ If a fetch fails (404, "URL not allowed", or similar), see
 If your fetch tool only follows URLs that appear in prior results,
 seed your fetcher with these:
 
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/project-memory.md
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/launch-block.md
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/conversation-format.md
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/dates-discipline.md
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/mobile-app-android.md
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-landscape.md
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-scaling.md
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-queue.md
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/fetching.md
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/project-memory.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/launch-block.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/conversation-format.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/dates-discipline.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/mobile-app-android.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-landscape.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-scaling.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-queue.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fetching.md?nocache=1
 
 ## Index
 
