@@ -11,12 +11,17 @@ own `memory/hygiene.md` instead.
 When you spot something during another task — do not interrupt the
 task. Add one line below in the format:
 
-`YYYY-MM-DD | <leaf or file> | <observation in 10-20 words>`
+`YYYY-MM-DD | <priority> | <leaf or file> | <observation in 10-20 words>`
+
+Priority is one character: `!` critical (acts as filter at start-of-session),
+`.` normal, `?` uncertain — observation might be a confabulation or might
+not warrant action. Default to `.` if unsure; reserve `!` for things that
+block ongoing work.
 
 Examples:
-- `2026-05-04 | n203 | references PhasePortraitView v3 params; code now on v4`
-- `2026-05-04 | memory-landscape | duplicate H-MEM section between n801 and memory-landscape after migration`
-- `2026-05-05 | n801.md | grew to cover 7 different approaches; split candidate`
+- `2026-05-04 | . | n203 | references PhasePortraitView v3 params; code now on v4`
+- `2026-05-04 | ! | memory-landscape | duplicate H-MEM section between n801 and memory-landscape after migration`
+- `2026-05-05 | ? | n801.md | grew to cover 7 different approaches; split candidate`
 
 ## How to use (operator)
 

@@ -264,6 +264,7 @@ low because the leaves are already in context.
 - Has it grown beyond one topic? (One leaf = one topic = one trade-off.
   Two trade-offs in one leaf is a split candidate.)
 - If the answer to any of these is "I'm not sure" — it counts.
+- Note that some leaves are unreachable to this check by design — leaves whose `purpose` does not match what is in them. This is the "hidden content" problem; it cannot be fully solved while preserving lazy loading. See `memory-scaling.md`, Problem 3, for mitigations.
 
 **On suspicion, do not silently fix and do not silently ignore.**
 Add a line to `hygiene-log.md` (in the protocols repo for cross-project
@@ -276,10 +277,16 @@ and an older leaf describe the same thing differently, the older is
 flagged as superseded — not deleted. Memory accumulates versions, the
 reader needs to know which is current.
 
-**The operator triggers cleanup on demand.** At the start of a
-session — or whenever convenient — the operator can ask the LLM to
-read `hygiene-log.md` and propose actions. This turns observations
-into decisions in batches, without forcing a separate cleanup mode.
+**Start-of-session trigger.** When a session begins, the LLM's first
+action — before the operator has to ask — is to read `hygiene-log.md`
+and surface a short summary: how many entries, any marked critical,
+whether anything overlaps with the task the operator just stated. This
+is the *only* automatic part of the loop; the operator still decides
+what to act on. Without this trigger, observations accumulate without
+ever being processed and the log becomes a graveyard.
+
+The operator may also request batch processing on demand at any other
+time. Both modes use the same mechanism — only the trigger differs.
 
 ## Triggered nodes
 
