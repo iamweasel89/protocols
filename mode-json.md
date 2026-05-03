@@ -95,4 +95,10 @@ not just a pointer to a separate file).
 
 ## Resolution
 
-<Filled in when the mode ends.>
+Discarded 2026-05-04 after three iterations (strict schema, hybrid
+with raw_answer, hardened with explicit override at top). Each
+iteration produced prose responses ignoring the schema. The follow-up
+control test in `mode-numbering.md` showed the same failure on a
+simpler rule, confirming the limit is in the mode-switching mechanism
+itself, not in JSON complexity. See `mode-default.md` for the
+updated scope of what mode switching can and cannot do.
