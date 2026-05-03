@@ -245,6 +245,28 @@ sufficient. When triggers reach three or more — or any becomes critical
 (e.g. `triggers.md`), so any LLM entering memory sees overdue items
 at once. Until then, the registry is unnecessary overhead.
 
+## Probe discipline
+
+A "probe" is a record of a fresh LLM session attempting to read
+the memory. Probes are how the design is calibrated against
+reality (see for example the readability-tests pattern: a leaf
+accumulating dated entries on who tried to read the memory and
+how it went).
+
+Probes describe the LLM's *experience* of reading, not the
+*state* of the files. The distinction matters: LLMs confabulate
+failure modes with confidence — claiming a section is missing
+when it is present, claiming a file 404s when it loads cleanly,
+claiming a URL is malformed when it works. The reports are not
+lies; they reflect what the LLM perceived. But they are not
+facts about the memory.
+
+**Rule.** Before committing a probe entry that asserts X is
+absent, broken, or wrong, verify against ground truth — open
+the file, check the live content. Without this rule, the probe
+log accumulates confident hallucinations as facts and the
+journal loses calibration value.
+
 ## What this spec deliberately does not include
 
 - Node subtypes inside leaves (decision / feature / question /
