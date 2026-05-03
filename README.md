@@ -5,6 +5,16 @@ is the meta-layer of the operator's work: cross-cutting conventions
 applied across multiple projects, kept here so individual project
 repos don't duplicate them.
 
+## Active mode
+
+**Current:** default (see `mode-default.md`)
+
+Modes are named configurations of the protocol set, used when an
+experiment needs isolation from daily work. Switching modes is one
+launch block that updates this line and points at a `mode-<name>.md`
+file describing the experiment. See `mode-default.md` for what
+modes do, when to switch, and how experiments resolve.
+
 ## For LLMs opening this repo
 
 You are the primary reader of this repo. The format, the indexes, the
