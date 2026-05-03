@@ -59,6 +59,14 @@ each file before reading it.
    as the entry point. Without this pointer, the memory folder is
    discoverable only by guessing.
 
+9. **Seed URLs in README.** The README should include a "Direct entry
+   URLs" section listing the seed URLs the LLM is meant to start
+   from — `memory/root.json`, key source files, referenced protocols.
+   Some fetch tools — Claude's `web_fetch` on claude.ai is the known
+   reference case — only follow URLs that already appeared in the
+   conversation. A tree of `ref`-children without explicit seed URLs
+   is unreachable to such tools, no matter how clean the spec is.
+
 ## File shapes
 
 ### root.json
