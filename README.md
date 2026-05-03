@@ -7,6 +7,12 @@ repos don't duplicate them.
 
 ## For LLMs opening this repo
 
+You are the primary reader of this repo. The format, the indexes, the
+seed URLs are designed for an LLM entering without prior context. A
+second equally-served reader is the operator a year from now; live
+human collaborators are a tertiary case and consume rendered views,
+not source files.
+
 If the operator has asked you to **work on the memory concept itself**
 (refine the spec, log a fresh-session probe, queue meta-work),
 start at `project-memory.md`. Active instances using it are listed
