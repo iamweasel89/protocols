@@ -7,7 +7,7 @@ repos don't duplicate them.
 
 ## Active mode
 
-**Current:** default (see `mode-default.md`)
+**Current:** numbering (see `mode-numbering.md`) — active experiment: tests whether two-phase activation (entry URL alone in first message, task in second) makes mode rules effective. Mechanism explainer: `mode-default.md`.
 
 Modes are named configurations of the protocol set, used when an
 experiment needs isolation from daily work. Switching modes is one
