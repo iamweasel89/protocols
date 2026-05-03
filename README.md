@@ -48,6 +48,14 @@ seed your fetcher with these:
 
 ## Index
 
+Two kinds of protocols. **Behavioral** ones govern how the LLM acts
+inside any session — sources, silence, launch blocks, probes,
+conversation form, dates. **Content** ones describe formats and
+patterns the LLM works *with* — memory layout, app patterns,
+recovery techniques, cross-project queues.
+
+### Behavioral protocols
+
 - **`project-memory.md`** — flat folder of JSON nav + markdown leaves;
   the format used by the operator's project memory. Read first when
   working on memory.
@@ -60,6 +68,8 @@ seed your fetcher with these:
   language matching, English corrections, simplification levels.
 - **`dates-discipline.md`** — honesty rules for any date written into
   a file; no invented timestamps.
+
+### Content protocols
 - **`mobile-app-android.md`** — Kotlin Android app pattern: GitHub
   Actions builds the APK, app self-updates from GitHub Releases.
 - **`memory-landscape.md`** — survey of similar approaches in the
