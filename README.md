@@ -38,7 +38,8 @@ seed your fetcher with these:
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-landscape.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-scaling.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-queue.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/fetching.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fetching.md
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/hygiene-log.md?nocache=1
 
 ## Index
 
@@ -61,6 +62,7 @@ seed your fetcher with these:
   hidden content).
 - **`memory-queue.md`** — cross-project queue of pending refinements
   to the memory concept itself.
+- **`hygiene-log.md`** — running log of staleness/overlap observations made by visiting sessions; processed in batches by the operator. See "Anti-rot discipline" in `project-memory.md`.
 - **`fetching.md`** — recovery techniques when GitHub fetch fails
   (Fastly cache, URL allowlists, blob-HTML extraction).
 

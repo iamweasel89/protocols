@@ -245,6 +245,42 @@ should live in a leaf node inside the project's memory (e.g.
 `n802 — Purpose discipline`), not in this spec. New rules graduate
 to the spec only when they prove universal across projects.
 
+## Anti-rot discipline
+
+A leaf that enters the memory does not release the operator or any
+visiting LLM from responsibility for it. Memory becomes a dump by
+default; preventing that is an obligation of every session, not an
+optional cleanup task.
+
+Every session must perform at least one local hygiene pass. The pass
+is local — only the leaves the session actually opened. The cost is
+low because the leaves are already in context.
+
+**For each leaf opened during a session, ask:**
+
+- Is this still accurate against current code/reality?
+- Does it overlap with another leaf I've seen, or with one in a
+  related branch?
+- Has it grown beyond one topic? (One leaf = one topic = one trade-off.
+  Two trade-offs in one leaf is a split candidate.)
+- If the answer to any of these is "I'm not sure" — it counts.
+
+**On suspicion, do not silently fix and do not silently ignore.**
+Add a line to `hygiene-log.md` (in the protocols repo for cross-project
+patterns; in the project's own folder for project-local notes). The
+log is the cheap channel: an observation becomes one line of text,
+no commit-level decision required.
+
+**Latest takes precedence on direct contradiction.** If a fresh leaf
+and an older leaf describe the same thing differently, the older is
+flagged as superseded — not deleted. Memory accumulates versions, the
+reader needs to know which is current.
+
+**The operator triggers cleanup on demand.** At the start of a
+session — or whenever convenient — the operator can ask the LLM to
+read `hygiene-log.md` and propose actions. This turns observations
+into decisions in batches, without forcing a separate cleanup mode.
+
 ## Triggered nodes
 
 A leaf can include `review_after` or `review_when` in its frontmatter,
