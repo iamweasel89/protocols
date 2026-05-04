@@ -30,32 +30,14 @@ configuration. Modes are for experiments, not for daily work.
 
 ## Activation requirements
 
-Mode activation requires two conditions in the operator's opening
-of a session:
+Mode pointers in README only take effect when the session opens
+under the activation contract specified in `mode-activation.md`.
+Two conditions: cache-bust on the entry URL, and two-phase
+activation (URL alone in first message, task in second).
 
-1. **Cache-bust on the entry URL.** Append a query string such as
-   `?nocache=<timestamp>` to the protocols-repo URL. Without this,
-   fresh sessions may receive a CDN-cached README from before the
-   current Active mode pointer existed, and the mode contract is
-   never seen by the LLM. See `fetching.md`, "Operator-side rule".
-
-2. **Two-phase activation.** Send the entry URL alone in the
-   first message, with no task attached. Let the LLM read the
-   mode file, acknowledge it, and only then post the task in a
-   second message. Bundling URL + task in one reply does not
-   reliably activate the mode — the LLM tends to answer the task
-   in default style without operationalizing the mode rules.
-
-Both conditions were tested on 2026-05-04 with `mode-numbering`
-(simple `[N]` prefix rule). Without them, three iterations of a
-`mode-json` experiment and one of `mode-numbering` failed. With
-them, `mode-numbering` succeeded immediately and persisted across
-multiple turns.
-
-Modes can change scope, focus, AND response format — earlier
-belief that format changes were architecturally impossible was a
-misdiagnosis caused by CDN-cached READMEs. See
-`mode-numbering.md` Resolution for the retroactive correction.
+Caveat: model-dependent. Confirmed on Claude. DeepSeek does not
+activate read mode files in instant or expert modes. See
+`mode-activation.md` caveat section.
 
 ## How experimental modes resolve
 
