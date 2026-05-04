@@ -1,0 +1,250 @@
+{
+  "fragment_type": "meta_spec",
+  "fragment_id": "machine-spec-meta",
+  "version": 2,
+  "created": "2026-05-04",
+  "source_message": "operator turn after testing v1 of meta-spec on three LLMs (Claude, ChatGPT, DeepSeek); all three produced valid new-leaf-spec.json, but two of them left a hidden gap — they declared filesystem-scanning as a step in process_signature, when in fact the LLM building the launch block has no filesystem access and would have to guess. Claude alone caught this and required parent_children_snapshot in the input.",
+  "context": "the system already has describing artifacts (agent-discipline, project-memory, launch-block.md) and realizing artifacts (mode files via mode-activation contract). this fragment introduces a third class — generating artifacts, called machines. a machine is a JSON contract that, given a defined input, produces a defined output via an LLM. this meta-spec defines what a machine is in this system and how to construct one. v2 adds explicit input-vs-process discipline after empirical testing.",
+
+  "core_assertion": {
+    "claim": "a machine is a JSON contract with three obligatory parts — input schema, process signature, output schema — instantiated through an LLM. machines are constructed from this meta-spec by following the procedure in section build_procedure, not by inventing structure case by case.",
+    "uncertainty": "low",
+    "from": "operator_and_model_alignment"
+  },
+
+  "what_a_machine_is": {
+    "definition": "JSON document that converts a structured input into a structured output through an LLM that reads the document",
+    "distinguished_from_rules": "a rule-text describes how something should be — a machine produces something on demand",
+    "distinguished_from_static_artifacts": "a static artifact stores a finished result — a machine stores the procedure that produces results, parameterized by input",
+    "minimum_obligatory_parts": ["input_schema", "process_signature", "output_schema"],
+    "from": "model_synthesis_of_operator_position"
+  },
+
+  "applicability_conditions": {
+    "summary": "not every repeated task should become a machine. machines are justified only when the conditions below all hold.",
+    "conditions": [
+      {
+        "id": "genre_repeats",
+        "condition": "the same kind of task arises more than two or three times across the systems life",
+        "rationale": "one-off tasks do not amortize the cost of designing a machine"
+      },
+      {
+        "id": "input_shape_stable",
+        "condition": "the structure of inputs is stable — only their content varies",
+        "rationale": "if input shape is unstable, the contract cannot be specified"
+      },
+      {
+        "id": "output_shape_stable",
+        "condition": "the structure of outputs is stable — only their content varies",
+        "rationale": "same as above for outputs"
+      },
+      {
+        "id": "transformation_specifiable",
+        "condition": "the transformation from input to output can be described in steps an LLM can follow without filesystem, network, or stateful tool access",
+        "rationale": "the LLM building the output has only what is in its context. anything not in the context is unknown to it, and it should not pretend otherwise."
+      }
+    ],
+    "rejection_examples": [
+      "one-time repository restructure — does not repeat",
+      "decisions about strategic project direction — operator judgment is not specifiable",
+      "creative writing — output shape is not stable"
+    ],
+    "from": "model"
+  },
+
+  "input_vs_process_discipline": {
+    "summary": "the load-bearing distinction in machine design. anything the LLM must KNOW to construct the output belongs in input_schema, not in process_signature.",
+    "rule": "if a step in process_signature reads scan the directory, check what exists, list current state of X — that step is wrong. the LLM has no filesystem, no network, no live tool access at the moment it builds the output. those acts must happen BEFORE the machine is invoked, by the operator or by another machine, and their RESULT must arrive in the input.",
+    "good_pattern": "input contains parent_children_snapshot, current_node_ids, repo_state, etc. — whatever pre-collected state the build step needs.",
+    "bad_pattern": "process step find next free nXXX by scanning memory/ — this means the LLM will guess, and the produced launch block will reference an invented number that may collide with reality.",
+    "test_for_a_draft_machine": "for every step in process_signature, ask: does this step require knowledge the LLM does not have at build time? if yes, the corresponding input field is missing. add it.",
+    "rejection_condition_implication": "machines should reject when the input is incomplete in this sense, rather than guessing. matches agent-discipline silence-rule.",
+    "from": "operator_and_model_alignment_after_v1_test"
+  },
+
+  "prerequisites_for_use": {
+    "summary": "this meta-spec alone is not sufficient for a fresh LLM to produce a working machine. the LLM additionally needs the following context, supplied as inputs along with this file.",
+    "required_context": [
+      {
+        "id": "system_overview",
+        "what": "general picture of the protocols repository — that there is a project-memory.md describing flat folder of JSON nav + markdown leaves, that there are behavioral protocols, that there are fragments. without this, the LLM cannot place a new machine in the system.",
+        "minimum_form": "the operator passes the entry-point URL of the protocols repo with cache-bust, OR pastes the protocols/README.md content"
+      },
+      {
+        "id": "target_genre_specifics",
+        "what": "the format of the artifacts the new machine will produce. for a leaf-creation machine — the format of project-memory.md. for a fragment-registration machine — the conventions of fragments/README.md. without this, the LLM cannot know the shape of the output.",
+        "minimum_form": "operator references the relevant protocol files OR includes their key rules in the input"
+      },
+      {
+        "id": "use_case",
+        "what": "what kind of repeated task the machine is for — described concretely. create new memory leaf is a use case; do something useful is not.",
+        "minimum_form": "one to three sentences naming the task, its inputs, and its expected outputs"
+      },
+      {
+        "id": "one_real_example",
+        "what": "at least one real prior instance of this task — what the operator typed, what the LLM produced, what was committed. examples are the load-bearing element of any machine; they prevent the contract from staying declarative.",
+        "minimum_form": "an example block showing input to output, ideally from chat history"
+      }
+    ],
+    "without_these": "the LLM either produces a generic, wrong-genre machine, or asks for clarification before generating anything. the latter is preferable — the LLM should refuse to generate without sufficient context, per agent-discipline.md.",
+    "from": "model"
+  },
+
+  "machine_template": {
+    "description": "the obligatory shape of any machine produced from this meta-spec. each field has its purpose; do not omit fields.",
+    "fields": [
+      {
+        "name": "spec_id",
+        "type": "string",
+        "purpose": "the machines stable identifier and filename"
+      },
+      {
+        "name": "created",
+        "type": "ISO date",
+        "purpose": "trace origin in time"
+      },
+      {
+        "name": "purpose",
+        "type": "string",
+        "purpose": "one sentence: what the machine produces, for what task"
+      },
+      {
+        "name": "input_schema",
+        "type": "object",
+        "purpose": "what the operator (or another machine) passes to invoke. fields, types, what is mandatory, what optional. CRUCIAL: include every piece of state-of-the-world the build step needs. see input_vs_process_discipline. typical entries beyond core data: snapshots of relevant current state (e.g. parent_children_snapshot), absolute paths, version markers, anything pre-collected the LLM cannot infer."
+      },
+      {
+        "name": "process_signature",
+        "type": "array of step objects",
+        "purpose": "what the LLM does between input and output, in steps. not pseudocode — operational description: compose body of W from description, assemble launch-block sections in this order. CRUCIAL: every step must be feasible from input_schema content alone. if a step needs information not in the input, the input is incomplete — fix it, do not paper over with scan or check."
+      },
+      {
+        "name": "output_schema",
+        "type": "object",
+        "purpose": "what the LLM must return. fields, types, format. crucially: what file or artifact the output ends up as — a launch block, a JSON fragment, a markdown leaf, etc."
+      },
+      {
+        "name": "rejection_conditions",
+        "type": "array of strings",
+        "purpose": "when the LLM must refuse to produce output and instead return an error or question. e.g. if input is incomplete, if uncertainty is high, if a required snapshot is missing. matches the silence-rule in agent-discipline. should explicitly include refusal when input_vs_process discipline would otherwise force guessing."
+      },
+      {
+        "name": "examples",
+        "type": "array of {input, output} pairs",
+        "purpose": "at least one real instance, ideally two. without examples, the contract remains declarative and unreliable. examples are the load-bearing element. the examples input must include ALL fields the input_schema declares — not abbreviated."
+      },
+      {
+        "name": "links_to_protocols",
+        "type": "array of references",
+        "purpose": "which describing protocols (agent-discipline, launch-block.md, project-memory.md, etc.) this machine relies on. orients new readers."
+      },
+      {
+        "name": "not_canonized",
+        "type": "array of strings",
+        "purpose": "what was considered for this machines design but rejected. preserves traceability of design decisions."
+      }
+    ]
+  },
+
+  "build_procedure": {
+    "description": "the procedure for an LLM (or operator with LLM) to construct a new machine from this meta-spec. follow in order.",
+    "steps": [
+      {
+        "step": 1,
+        "action": "verify the candidate task passes all four applicability_conditions. if any condition fails, do not build a machine — instead return a refusal explaining which condition fails."
+      },
+      {
+        "step": 2,
+        "action": "verify all four prerequisites_for_use are supplied. if any missing, request the missing piece from the operator before proceeding."
+      },
+      {
+        "step": 3,
+        "action": "draft input_schema first. include every piece of state-of-the-world the future build step will need to know — see input_vs_process_discipline. then output_schema. then process_signature, ensuring every step is feasible from the input. examples last, drawn from real prior instances; the examples input must instantiate every input_schema field."
+      },
+      {
+        "step": 4,
+        "action": "validate the draft machine: are all obligatory fields present? are examples real, not invented? are rejection_conditions specific? does any process step quietly require knowledge not in the input? if yes, fix input_schema."
+      },
+      {
+        "step": 5,
+        "action": "test the draft machine on a fresh LLM with one of its examples as input. the fresh LLM should produce the examples output, or close to it. if it does not — the machine is not yet a working contract; revise."
+      },
+      {
+        "step": 6,
+        "action": "commit the machine to fragments/ or to a new machines/ folder, with appropriate README updates per protocols/README.md conventions."
+      }
+    ]
+  },
+
+  "examples_of_machinizable_tasks": [
+    {
+      "task": "create a new memory leaf in birdscope",
+      "rationale": "all four conditions hold: leaves are created repeatedly, input shape is stable (description, parent, kind, parent_children_snapshot), output shape is stable (nXXX.md + parent JSON nav update), transformation is specifiable from input alone",
+      "candidate_machine_id": "new-leaf-spec",
+      "from": "model"
+    },
+    {
+      "task": "register a new fragment in protocols/fragments/",
+      "rationale": "fragments will accumulate; structure is stable (operator_reflection genre); output is stable (json file + README index update)",
+      "candidate_machine_id": "new-fragment-spec",
+      "from": "model"
+    },
+    {
+      "task": "introduce a new mode for an experiment",
+      "rationale": "mode files have a fixed shape (mode-activation.md spec); input is the experiment description; output is mode-NAME.md plus README pointer flip",
+      "candidate_machine_id": "new-mode-spec",
+      "from": "model"
+    }
+  ],
+
+  "examples_of_non_machinizable_tasks": [
+    {
+      "task": "decide which open thread in memory-queue.md to promote next",
+      "rationale": "requires operator judgment about current priorities; output is a decision, not a structured artifact"
+    },
+    {
+      "task": "rewrite both repositories under a new alphabet of atoms",
+      "rationale": "one-time event, not a repeating genre"
+    }
+  ],
+
+  "links_to_other_fragments": [
+    {
+      "to": "what-makes-an-artifact-good",
+      "kind": "extends",
+      "summary": "machines satisfy all five properties of a good artifact — addressable, executable, detached from chat, born by system rules, traceable. they push the system toward the operators stated goal of accumulating force in the artifact pole."
+    },
+    {
+      "to": "atoms-of-project-memory",
+      "kind": "echoes",
+      "summary": "the same logic applies: do not pre-design the full set of machines; let machines proliferate one at a time when real repeated tasks demand them. machine_template is the alphabet of machines, and it is itself emerging from cases."
+    },
+    {
+      "to": "how-an-artifact-is-born",
+      "kind": "extends",
+      "summary": "the formula context + launch-block instruction + operator command produces artifact is a special case of a machine: the machine for producing launch-blocks. that machine is realized informally today through launch-block.md plus chat. this meta-spec proposes formalizing it and others as JSON contracts."
+    }
+  ],
+
+  "open_threads": [
+    "where to store machines — alongside fragments/ or in a separate machines/ folder. format suggests a separate folder, but not yet decided.",
+    "whether machines should be tested for detachment the same way fragments are (one-shot read by fresh LLM) or differently (full input-output cycle).",
+    "whether the meta-spec itself counts as a machine that produces machines (yes by definition) or as a meta-level above all machines (which would mean its own genre)."
+  ],
+
+  "v2_changes": [
+    "added input_vs_process_discipline section — load-bearing rule extracted from v1 testing",
+    "tightened applicability_conditions transformation_specifiable — explicitly named no filesystem/network/tool access at build time",
+    "tightened machine_template input_schema purpose — must include state-of-the-world snapshots",
+    "tightened machine_template process_signature purpose — every step feasible from input alone",
+    "tightened build_procedure step 3 and step 4 — input_schema first, validate that no step quietly needs out-of-input knowledge",
+    "examples_of_machinizable_tasks new-leaf-spec now mentions parent_children_snapshot in the input shape"
+  ],
+
+  "not_canonized": [
+    "идея всё в системе должно стать машинами — отвергнута; машины оправданы только при выполнении applicability_conditions",
+    "идея машины заменяют оператора в принятии решений — отвергнута; машины автоматизируют повторяющееся производство, не суждение",
+    "идея один шаблон машины подходит для всех задач — отвергнута на уровне формулировки; machine_template сам подлежит уточнению по мере накопления реальных машин",
+    "идея процесс может включать сканирование файловой системы — отвергнута в v2; то, что нужно знать ЛЛМ во время сборки, должно быть во входе, не в процессе"
+  ]
+}

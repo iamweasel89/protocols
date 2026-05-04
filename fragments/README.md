@@ -21,6 +21,12 @@ fragments below.
 
 ## Genre conventions
 
+Fragments come in types, distinguished by `fragment_type`. The first
+two are: `operator_reflection` (most fragments — captured shape of
+one turn or chain of turns) and `meta_spec` (introduced 2026-05-04 —
+JSON contract that defines how to construct a class of artifacts;
+see `machine-spec-meta.json`).
+
 A fragment is a single JSON file. Required fields:
 
 - `fragment_type` — string, e.g. `operator_reflection`
@@ -62,3 +68,12 @@ for the operator's explicit position on this.
   must emerge from cases, not be adopted as a list, otherwise the
   operator becomes a reader of his own system. Created 2026-05-04.
   Extends `what-makes-an-artifact-good`.
+- **`how-an-artifact-is-born.json`** — operator proposed a formula
+  for how an artifact is born; this fragment unrolls it from a sum
+  into a trace through inputs, LLM, candidate, operator, application,
+  system change. Created 2026-05-04. Extends `what-makes-an-artifact-good`.
+- **`machine-spec-meta.json`** (v2) — first meta-spec in the system.
+  Defines what a machine is (JSON contract with input/process/output)
+  and how to build one. New fragment_type: `meta_spec`. v2 adds the
+  input-vs-process discipline rule after empirical testing across
+  three LLMs. Created 2026-05-04.

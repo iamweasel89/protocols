@@ -1,0 +1,82 @@
+{
+  "fragment_type": "operator_reflection",
+  "fragment_id": "how-an-artifact-is-born",
+  "created": "2026-05-04",
+  "source_message": "operator turn proposing a formula: context + launch-block instruction + operator command = artifact",
+  "context": "after committing the first two reflection fragments to protocols/fragments/, operator proposed a formula describing how a launch-block-style artifact comes into being; the formula is partially right and partially incomplete — this fragment fixes both",
+
+  "core_assertion": {
+    "claim": "an artifact is not a sum of inputs but a trace through a process: inputs go through the LLM, produce a candidate, the candidate passes through the operator, gets applied, and only the applied change in the system is the real artifact",
+    "uncertainty": "low",
+    "operator_phrasing_preserved": false,
+    "note": "operator gave the formula in shorthand; this is the unrolled form"
+  },
+
+  "operator_initial_formula": {
+    "expression": "контекст (участок его) + инструкция о ПБ + команда оператора = артефакт",
+    "from": "operator"
+  },
+
+  "what_works_in_the_formula": [
+    {
+      "id": "three_inputs_real",
+      "summary": "три слагаемых действительно нужны: без контекста ПБ не привязан к ситуации, без инструкции о формате ПБ нет жанра ответа, без команды оператора нет повода для рождения",
+      "from": "model"
+    }
+  ],
+
+  "what_does_not_work_in_the_formula": [
+    {
+      "id": "equality_sign_lies",
+      "summary": "знак равенства превращает функцию в сумму; три текстовых файла сами по себе ничего не порождают — между входом и выходом стоит процесс",
+      "missing_actor": "ЛЛМ как четвёртое и решающее слагаемое: она читает, рассуждает, формулирует",
+      "from": "model"
+    },
+    {
+      "id": "operator_collapsed_to_command",
+      "summary": "в формуле есть команда оператора, но нет самого оператора как принимающей стороны — а он не равен своей команде",
+      "missing_role": "оператор как тот, кто принимает или отвергает кандидата ПБ; до его принятия ПБ — кандидат, не артефакт",
+      "from": "model"
+    },
+    {
+      "id": "artifact_treated_as_endpoint",
+      "summary": "ПБ в формуле выглядит конечной точкой, но он промежуточный — текстовый файл становится значащим только после применения и git push",
+      "missing_step": "применение ПБ оператором + изменение системы как настоящий итог",
+      "from": "model"
+    }
+  ],
+
+  "unfolded_trace": {
+    "shape": "(контекст + инструкция о формате + команда оператора) → ЛЛМ → кандидат-ПБ → оператор → применение → изменение системы",
+    "shift": "это не сумма, а трасса; каждый узел добавляет или отбраковывает",
+    "from": "model"
+  },
+
+  "connection_to_other_fragments": [
+    {
+      "to": "what-makes-an-artifact-good",
+      "kind": "extends",
+      "summary": "пятое свойство (traceability) требует возможности отмотать назад; формула — первая попытка эту трассу выписать формально"
+    },
+    {
+      "to": "atoms-of-project-memory",
+      "kind": "echoes",
+      "summary": "тот же сюжет: оператор не равен своей команде, как и алфавит не равен своему списку; в обоих случаях механизм усыхает, если убрать оператора-как-владельца"
+    }
+  ],
+
+  "implication": {
+    "summary": "формула трассирует происхождение, но не последствия; артефакт без trace последствий — полу-артефакт; именно поэтому два предыдущих фрагмента нужно было закоммитить, а не только обсудить",
+    "from": "model"
+  },
+
+  "open_threads": [
+    "нужен ли отдельный жанр для записи trace последствий, или он встраивается в каждую молекулу полем applied_at / produced_change",
+    "что считать применением для не-ПБ артефактов — для самих фрагментов, например (commit засчитывается? чтение свежей сессией? использование в реальной задаче?)"
+  ],
+
+  "not_canonized": [
+    "формула в исходном виде, со знаком равенства — оставлена как operator_initial_formula, но не возведена в спецификацию",
+    "разговорное «добить до артефакта» — рабочая фраза процесса, не часть содержания"
+  ]
+}
