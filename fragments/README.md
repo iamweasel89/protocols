@@ -107,6 +107,11 @@ for the operator's explicit position on this.
   for how an artifact is born; this fragment unrolls it from a sum
   into a trace through inputs, LLM, candidate, operator, application,
   system change. Created 2026-05-04. Extends `what-makes-an-artifact-good`.
+- **`json-wrap-spec.json`** — first concrete machine in the system,
+  built by hand against `machine-spec-meta.json`. Wraps any input text
+  in one valid JSON object preserving raw verbatim and separating
+  LLM's own interpretation into a labeled layer. Designed for fresh
+  LLM sessions without operator context. Created 2026-05-04.
 - **`machine-spec-meta.json`** (v3) — first meta-spec in the system.
   Defines what a machine is (JSON contract with input/process/output)
   and how to build one. New fragment_type: `meta_spec`. v2 added the
