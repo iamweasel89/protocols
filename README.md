@@ -99,3 +99,10 @@ recovery techniques, cross-project queues.
 - [iamweasel89/birdscope](https://github.com/iamweasel89/birdscope) —
   uses `project-memory.md`, `launch-block.md`, `dates-discipline.md`,
   `mobile-app-android.md`, `fetching.md`.
+
+### Fragments
+
+- **`fragments/`** — folder of reflection artifacts in JSON form.
+  Each file is a self-contained crystallization of one moment of
+  thinking, tested for detachment from chat. New genre established
+  2026-05-04. See `fragments/README.md` for genre conventions.

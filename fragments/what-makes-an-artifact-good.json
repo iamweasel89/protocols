@@ -1,0 +1,74 @@
+{
+  "fragment_type": "operator_reflection",
+  "fragment_id": "what-makes-an-artifact-good",
+  "created": "2026-05-04",
+  "source_message": "operator turn before last (the long one with five sub-points)",
+  "context": "after closing mode-activation cross-model experiments, narrowing back to Claude, operator unpacked what specifically made the protocols/modes work feel right",
+  "core_assertion": {
+    "claim": "good artifact = addressable, executable, detached from chat, born by system rules, therefore explainable",
+    "uncertainty": "low",
+    "operator_phrasing_preserved": true
+  },
+  "properties": [
+    {
+      "id": "instant_artifact",
+      "name": "артефакт почти сразу",
+      "summary": "минимальная форма артефакта уже рабочая — полстраницы текста, и можно тестировать",
+      "contrast_with": "тяжёлые жанры (project-memory.md), которые становятся рабочими только когда заполнены",
+      "applies_to_genres": ["mode files", "launch blocks", "agent-discipline"],
+      "from": "operator"
+    },
+    {
+      "id": "self_feedback",
+      "name": "артефакт сам даёт обратную связь",
+      "summary": "у артефакта есть наблюдаемый эффект — активация, выполнение, ошибка парсинга",
+      "depends_on": "executability of the artifact's form",
+      "examples": ["mode file activates or does not", "launch block runs or fails"],
+      "from": "operator"
+    },
+    {
+      "id": "detachment_from_chat",
+      "name": "отчуждение от чата",
+      "summary": "артефакт сохраняет смысл и ценность без оператора и без конкретной сессии",
+      "test": "fresh LLM reads the artifact alone — does meaning survive?",
+      "rejects": "drafts that collapse without their author's context",
+      "from": "operator",
+      "operator_emphasis": "named as the main criterion of value"
+    },
+    {
+      "id": "re_entry_path",
+      "name": "возможность вернуться к ЛЛМ",
+      "summary": "у артефакта должен быть адрес, по которому новая сессия может зайти и продолжить развитие",
+      "mechanism_observed": "single entry URL with smart content inside",
+      "implication": "fragment without a stable URL has no growth path",
+      "from": "operator"
+    },
+    {
+      "id": "traceability",
+      "name": "система делает всё по своим же законам, и поэтому объяснима",
+      "summary": "артефакт, рождённый по правилам системы, можно отмотать назад: какой документ привёл сюда, какое правило это позволило",
+      "analogy_used_by_operator": "fractal: seed formula plus iteration rules produce a reproducible Koch snowflake",
+      "opposite": "artifact born outside rules — cause sits in operator's head, inaccessible",
+      "from": "operator"
+    }
+  ],
+  "synthesized_definition": {
+    "good_artifact": "addressable, executable fragment, detached from chat, born by system rules, therefore explainable",
+    "stronger_than": "draft of UI menu hierarchy in scratch.md",
+    "from": "model_synthesis_of_operator_points"
+  },
+  "implications_for_open_question": {
+    "open_question": "where to fix a not-yet-attached fragment of UI menu hierarchy",
+    "reframe": "do not look for a place to dump fresh thoughts; design the fragment so that all five properties hold from birth",
+    "from": "model"
+  },
+  "open_threads": [
+    "не каждый артефакт может быть instant — у каких жанров это достижимо, у каких нет",
+    "не каждый артефакт исполним — для неисполнимых нужны другие тесты на feedback",
+    "trace вглубь: как именно фиксировать какое правило породило какой шаг — нужен ли отдельный лог или достаточно git history"
+  ],
+  "not_canonized": [
+    "формулировка про «три необходимые опоры» (LLM + PowerShell + documentation) — была предложена ассистентом ранее, оператор не принял",
+    "fractal analogy — рабочая для разговора, не закрепляется в системе"
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "fragment_type": "operator_reflection",
+  "fragment_id": "atoms-of-project-memory",
+  "created": "2026-05-04",
+  "source_message": "operator turn after assistant proposed a candidate alphabet of ten atoms",
+  "context": "after the artifact what-makes-an-artifact-good.json passed the detachment test on four LLMs, the question arose whether a standard alphabet of atoms (small universal fields composing memory nodes) could be extracted; assistant proposed ten candidates; this fragment captures the operator's response to that proposal",
+  "core_assertion": {
+    "claim": "an alphabet of atoms cannot be adopted from a complete list — it must emerge from cases, one at a time, or the operator becomes a reader of his own system rather than its author",
+    "uncertainty": "low",
+    "operator_phrasing_preserved": true
+  },
+  "observations": [
+    {
+      "id": "list_does_not_grasp",
+      "name": "длинный список разом не схватывается",
+      "summary": "десять атомов не усваиваются одновременно; категории требуют повода, без поводов остаются абстракцией",
+      "diagnosis": "не дефект изложения, а свойство категорий как таковых",
+      "from": "operator"
+    },
+    {
+      "id": "context_window_grows_through_cases",
+      "name": "окно раздвигается по кейсам",
+      "summary": "оператор может удержать больше категорий после того, как каждая получит реальный повод применения",
+      "implication": "движение должно быть кейс-за-кейсом, а не от полного алфавита к применению",
+      "from": "operator"
+    },
+    {
+      "id": "alphabet_emerges_under_hand",
+      "name": "алфавит проступает под рукой",
+      "summary": "оператор не строит алфавит сначала, а потом пишет им — он пишет конкретные молекулы и замечает повторяющиеся атомы",
+      "from": "model_synthesis_of_operator_position"
+    },
+    {
+      "id": "encapsulation_for_operator",
+      "name": "инкапсуляция нужна не машине, а оператору",
+      "summary": "если оператор не освоил решение, он не сможет его отстаивать, развивать, объяснять — система станет чужим механизмом внутри его системы",
+      "implication": "неосвоенные конструкции держатся за стенкой: в разговоре можно, в репо — нельзя, пока не созрело",
+      "from": "operator",
+      "operator_emphasis": "named as the central concern of the turn"
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "q_rewrite_repos",
+      "question": "можно ли переписать оба репо в формате атомов",
+      "operator_answer_inclination": "технически возможно, но дорого и преждевременно",
+      "from": "operator"
+    },
+    {
+      "id": "q_added_value",
+      "question": "добавит ли переписывание читаемости и гибкости",
+      "operator_answer_inclination": "местами да, но цена выше выгоды на текущем этапе",
+      "from": "operator"
+    },
+    {
+      "id": "q_terminal_alphabet",
+      "question": "можно ли считать предложенные десять атомов терминальным алфавитом системы",
+      "operator_answer_inclination": "слишком сильное слово; рабочий — да, терминальный — нет",
+      "from": "operator"
+    },
+    {
+      "id": "q_grammar_buildable",
+      "question": "построим ли грамматику на этих атомах",
+      "operator_answer_inclination": "потенциально да; проверяемо когда наберётся достаточно молекул",
+      "from": "operator"
+    }
+  ],
+  "candidate_atoms_held_behind_wall": {
+    "status": "proposed_by_assistant_not_canonized",
+    "reason": "operator did not grasp them as a whole; adopting unowned categories would violate traceability and explainability criteria",
+    "list": [
+      "id",
+      "type",
+      "created",
+      "from",
+      "body",
+      "links",
+      "status",
+      "uncertainty",
+      "gaps",
+      "not_canonized"
+    ],
+    "from": "model"
+  },
+  "agreed_next_step": {
+    "step": "не строить алфавит и грамматику сейчас; зафиксировать сам разговор об атомах как второй пример жанра рефлексивных JSON-фрагментов; накапливать молекулы по одной, пусть алфавит проступает на нескольких примерах",
+    "rationale": "темп один кейс — один шаг; на двух примерах грамматика начнёт проступать сама; преждевременная систематизация ломает операторское владение",
+    "from": "operator_and_model_alignment"
+  },
+  "links_to_other_fragments": [
+    {
+      "to": "what-makes-an-artifact-good",
+      "kind": "extends",
+      "summary": "этот фрагмент прямо опирается на пять свойств хорошего артефакта; критерий traceability и detachment from chat — основа аргумента про инкапсуляцию"
+    }
+  ],
+  "not_canonized": [
+    "терминальный алфавит — формулировка отвергнута оператором как слишком сильная",
+    "переписывание двух репо в формате атомов — рассмотрено и отложено как преждевременное",
+    "немедленная сборка грамматики — отложено до накопления нескольких молекул"
+  ]
+}
