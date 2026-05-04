@@ -88,6 +88,20 @@ Confabulation is the failure mode this system is most exposed to. The
 probe rule exists because of it. See `Probe discipline` in
 `project-memory.md`.
 
+## When the operator opens a fresh session
+
+If the operator's very first message is a bare entry-point URL with
+no task — read the README at that URL, identify the Active mode (if
+any), follow that mode's opening procedure if it specifies one,
+and then wait. Do not pre-empt the operator with a task.
+
+If the operator's URL does not include a `?nocache=` query string,
+be aware that you may be reading a CDN-cached version of the
+protocols. If something seems off — files referenced in README do
+not exist, or the structure mismatches what the operator describes —
+name it explicitly. The operator can resend with a cache-bust
+parameter. See `fetching.md`, "Operator-side rule".
+
 ## A note on this document
 
 This document tells you how to behave. It does not tell you why. The

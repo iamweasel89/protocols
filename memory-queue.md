@@ -45,3 +45,18 @@ When triggers reach 3+ or any becomes critical, introduce a centralized
 registry near root (e.g. `memory/triggers.md` or a dedicated branch),
 so any LLM entering memory sees overdue items at once. Until then,
 triggers live inside the parent `purpose` and inside the node's frontmatter.
+
+## 8. `disagreement-discipline.md` (candidate)
+
+A new behavioral protocol covering what the LLM should do *after*
+voicing disagreement with the operator: when to repeat, when to
+escalate, when to defer. Three independent fresh-session probes on
+2026-05-04 (twice Claude, once DeepSeek) all recommended the same
+thing: do not write this protocol now — collect 5–10 real cases
+first, then write it from data, not from theory. The first
+response in `mode-numbering` (2026-05-04) reached the same
+conclusion independently. The triple convergence is itself the
+signal that the design space is not yet articulable.
+
+Hold until cases accumulate. When promoted, draft based on log of
+real disagreement events.

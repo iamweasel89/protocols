@@ -93,3 +93,31 @@ which also evades same-session caches.
 
 If the repo is private, no anonymous fetch will work. The operator
 must provide an authorized URL or paste the content directly.
+
+## Operator-side rule: cache-bust the entry URL in fresh sessions
+
+When opening a fresh LLM session and pointing it at this protocols
+repo (or any project repo following `project-memory.md`), append a
+cache-bust query string to the entry URL:
+
+```
+https://github.com/<owner>/<repo>?nocache=<timestamp>
+```
+
+Why: README and protocol files are served via Fastly with cache TTLs
+that occasionally extend much longer than the documented 5 minutes.
+A fresh session may receive a README from hours or a day earlier,
+missing recent changes — most painfully, missing newly-added mode
+pointers, new protocol entries, or recently-fixed wording. The LLM
+then operates from an outdated contract and the operator gets
+misleading test results.
+
+Confirmed on 2026-05-04: a `mode-numbering` experiment failed on
+first attempt because the fresh session received a pre-mode-mechanism
+README and never saw the Active mode pointer. The same experiment
+with `?nocache=20260504` succeeded immediately. Earlier failures of
+`mode-json` (same date) are now believed to share this cause.
+
+The query string can be any value that is unique enough to miss the
+cache key. Date stamp is sufficient. The string is ignored by
+GitHub's rendering — only Fastly cares about it.

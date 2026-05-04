@@ -48,4 +48,31 @@ without applying the prefix.
 
 ## Resolution
 
-<Filled in when the mode ends.>
+Succeeded 2026-05-04 with two-phase activation + cache-bust query
+string. Operator opened a fresh chat, sent only the entry-point URL
+with `?nocache=<timestamp>` appended. The fresh LLM read the current
+README, saw Active mode `numbering`, descended into this file, and
+replied `[1] I have read the mode file...` exactly as required. The
+second message in the same chat received `[2]` prefix on a substantive
+response that also followed `agent-discipline.md` discipline.
+
+## Retroactive correction of earlier conclusions
+
+Earlier today (same date) `mode-json.md` was discarded after three
+iterations of prose-instead-of-JSON, and a first run of `mode-numbering`
+also failed without cache-bust. The Resolution at that time concluded:
+"file-pointer-based mode switching cannot override default response
+format." That conclusion was wrong. The failures were CDN-mediated.
+Fresh sessions were receiving an older README without the Active mode
+block — which had been added the same morning — so they never saw
+the mode pointer at all. Mode files were read only because the
+operator pointed at them indirectly; the activation contract was never
+established in the LLM's context.
+
+The mode mechanism is valid for format-changing experiments when:
+1. The entry-point URL carries a cache-bust query string.
+2. The operator sends only the URL in the first message and lets the
+   LLM acknowledge the mode before posing the task.
+
+A re-run of the JSON experiment under these conditions is worth doing
+before treating "JSON mode infeasible" as established.
