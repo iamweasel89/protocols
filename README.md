@@ -7,7 +7,7 @@ repos don't duplicate them.
 
 ## Active mode
 
-**Current:** json (see `mode-json.md`) — re-run of the JSON response experiment after the mode mechanism was vindicated by `mode-numbering`. Tests whether the same activation contract works for a more demanding format rule.
+**Current:** default (see `mode-default.md`)
 
 Modes are named configurations of the protocol set, used when an
 experiment needs isolation from daily work. Switching modes is one
@@ -44,42 +44,60 @@ If a fetch fails (404, "URL not allowed", or similar), see
 If your fetch tool only follows URLs that appear in prior results,
 seed your fetcher with these:
 
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/project-memory.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/launch-block.md
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/agent-discipline.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/launch-block.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/conversation-format.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/dates-discipline.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/project-memory.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/mobile-app-android.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-landscape.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-scaling.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-queue.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/fetching.md
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fetching.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/hygiene-log.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-default.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-template.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-activation.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/README.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/what-makes-an-artifact-good.json?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/atoms-of-project-memory.json?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/how-an-artifact-is-born.json?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/machine-spec-meta.json?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/json-wrap-spec.json?nocache=1
 
 ## Index
 
-Two kinds of protocols. **Behavioral** ones govern how the LLM acts
+Three kinds of artifacts. **Behavioral** ones govern how the LLM acts
 inside any session — sources, silence, launch blocks, probes,
-conversation form, dates. **Content** ones describe formats and
-patterns the LLM works *with* — memory layout, app patterns,
-recovery techniques, cross-project queues.
+conversation form, dates, mode activation. **Content** ones describe
+formats and patterns the LLM works *with* — memory layout, app
+patterns, recovery techniques, cross-project queues. **Fragments**
+are JSON molecules: reflections, meta-specs, machines.
 
 ### Behavioral protocols
 
-- **`project-memory.md`** — flat folder of JSON nav + markdown leaves;
-  the format used by the operator's project memory. Read first when
-  working on memory.
-- **`launch-block.md`** — ready-to-run console command format. Read
-  first when delivering changes to any project.
 - **`agent-discipline.md`** — how the LLM behaves inside the system:
   how to distinguish sources in answers, when to break silence, when to
   propose a launch block, how to run probes. Read on entry to any session.
+- **`launch-block.md`** — ready-to-run console command format. Read
+  first when delivering changes to any project.
 - **`conversation-format.md`** — numbered messages, real timestamps,
   language matching, English corrections, simplification levels.
 - **`dates-discipline.md`** — honesty rules for any date written into
   a file; no invented timestamps.
+- **`mode-default.md`** — explainer of the mode-switching mechanism;
+  what modes do, when to switch, how experiments resolve.
+- **`mode-template.md`** — empty mode skeleton; copy when starting an
+  experiment.
+- **`mode-activation.md`** — spec for the activation contract: how a
+  mode pointer in README actually takes effect (cache-bust + two-phase).
+  Includes cross-model findings (Claude/DeepSeek/ChatGPT/Gemini).
 
 ### Content protocols
+
+- **`project-memory.md`** — flat folder of JSON nav + markdown leaves;
+  the format used by the operator's project memory. Read first when
+  working on memory.
 - **`mobile-app-android.md`** — Kotlin Android app pattern: GitHub
   Actions builds the APK, app self-updates from GitHub Releases.
 - **`memory-landscape.md`** — survey of similar approaches in the
@@ -90,9 +108,36 @@ recovery techniques, cross-project queues.
   hidden content).
 - **`memory-queue.md`** — cross-project queue of pending refinements
   to the memory concept itself.
-- **`hygiene-log.md`** — running log of staleness/overlap observations made by visiting sessions; processed in batches by the operator. See "Anti-rot discipline" in `project-memory.md`.
+- **`hygiene-log.md`** — running log of staleness/overlap observations
+  made by visiting sessions; processed in batches by the operator.
+  See "Anti-rot discipline" in `project-memory.md`.
 - **`fetching.md`** — recovery techniques when GitHub fetch fails
   (Fastly cache, URL allowlists, blob-HTML extraction).
+
+### Fragments
+
+Folder of JSON molecules. Two types so far: `operator_reflection`
+(captured shape of one turn or chain of turns) and `meta_spec` /
+`machine` (generating contracts). See `fragments/README.md` for genre
+conventions and operator-facing map.
+
+- **`fragments/what-makes-an-artifact-good.json`** — five properties
+  of a good artifact: addressable, executable, detached from chat,
+  born by system rules, therefore explainable. 2026-05-04.
+- **`fragments/atoms-of-project-memory.json`** — alphabet of atoms
+  must emerge from cases, not be adopted as a list, otherwise the
+  operator becomes a reader of his own system. 2026-05-04.
+- **`fragments/how-an-artifact-is-born.json`** — formula for artifact
+  birth unrolled from a sum into a trace through inputs, LLM,
+  candidate, operator, application, system change. 2026-05-04.
+- **`fragments/machine-spec-meta.json`** (v3) — first meta-spec.
+  Defines what a machine is and how to build one. v3 includes
+  invocation_template for placeholder-driven invocation. 2026-05-04.
+- **`fragments/json-wrap-spec.json`** — first concrete machine.
+  Wraps any input text in one valid JSON object preserving raw
+  verbatim and separating LLM's own interpretation. Activated via
+  cache-bust + two-phase by Claude; needs explicit imperative for
+  DeepSeek and other models. 2026-05-04.
 
 ## Active instances
 
@@ -100,9 +145,3 @@ recovery techniques, cross-project queues.
   uses `project-memory.md`, `launch-block.md`, `dates-discipline.md`,
   `mobile-app-android.md`, `fetching.md`.
 
-### Fragments
-
-- **`fragments/`** — folder of reflection artifacts in JSON form.
-  Each file is a self-contained crystallization of one moment of
-  thinking, tested for detachment from chat. New genre established
-  2026-05-04. See `fragments/README.md` for genre conventions.
