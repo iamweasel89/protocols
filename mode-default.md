@@ -35,9 +35,11 @@ under the activation contract specified in `mode-activation.md`.
 Two conditions: cache-bust on the entry URL, and two-phase
 activation (URL alone in first message, task in second).
 
-Note: activation threshold differs across models. Claude activates on
-a bare entry URL; DeepSeek needs the URL plus a content task. See
-`mode-activation.md` for the full threshold note and design guidance.
+Cross-model note: activation through file pointers is reliable on
+Claude, conditional on DeepSeek (needs explicit imperative in first
+message; source-tracking fields may confabulate), and does not work
+on ChatGPT or Gemini. See `mode-activation.md` for the full findings
+and per-model practical guidance.
 
 ## How experimental modes resolve
 

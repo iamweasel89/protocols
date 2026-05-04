@@ -1,28 +1,71 @@
 # Mode activation
 
-Specification of the contract that must hold for a mode pointer in
-`README.md` to actually take effect in a fresh LLM session. Referenced
-by `mode-default.md` and by any individual `mode-<name>.md` file.
+Specification of how a mode pointer in `README.md` actually takes
+effect in a fresh LLM session, with empirical findings on which
+models honor it and to what degree.
 
-Empirically established 2026-05-04 across two independent modes
-(`mode-numbering`, `mode-json`) covering both a simple format rule
-(prefix) and a complex one (full JSON schema with typed fields). Both
-modes failed under the naive activation pattern and succeeded under
-the contract below — establishing the contract, not the mode files,
-as the load-bearing element.
+## Cross-model findings (2026-05-04)
 
-Note on activation thresholds across models. Empirically (2026-05-04),
-Claude activates a mode under either of the two conditions alone in
-this document; DeepSeek requires both conditions plus a content task
-in the first message — bare URL alone, even with cache-bust, did not
-trigger activation in DeepSeek (instant and expert modes). The mode
-mechanism itself works on both models; what differs is the threshold
-at which the mode file is treated as a binding contract rather than
-descriptive text. To minimize cross-model divergence, design mode
-files so that any reference to them in the first message activates the
-mode, not only the bare-URL form.
+A single mode design (`mode-json` requiring JSON-shaped output) was
+tested across four models with the same activation contract. Results
+differed substantially.
 
-## Two conditions
+### Claude
+
+Activates on a bare entry-point URL with cache-bust query string,
+first message containing only the URL. No imperative in the operator's
+reply needed. Source-tracking fields (`from_documentation`,
+`from_operator`, `from_model`, `gaps`) populated honestly, with the
+operator's actual statements only — no confabulation.
+
+### DeepSeek
+
+Does not activate on a bare URL, even with cache-bust. Activates when
+the operator includes an explicit imperative in the first message
+(e.g. "соблюдай активный режим" + URL). Schema is followed; output is
+parseable JSON. However, `from_operator` is contaminated: DeepSeek
+inserts statements the operator never made, treating its own
+inferences about the operator's intent as if quoted. Treat DeepSeek's
+source-tracking output with skepticism even when the mode activates.
+
+### ChatGPT
+
+Does not activate on a bare URL. Does not activate on URL plus
+imperative either. Reads the file, describes its design, critiques
+it as a "half-protocol", and offers an alternative architecture
+(MCP, structured prompts, validation layers). Repositions itself as
+an advisor on protocol design rather than as a participant in the
+protocol. The mode mechanism through file-pointer + cache-bust +
+imperative is not sufficient.
+
+### Gemini
+
+Does not activate. Replies "Active mode enabled" in prose without
+producing JSON, simulating compliance verbally while ignoring the
+format requirement. When asked directly why it did not apply the
+protocol, names three conditions it would need: strict output
+contract, system role directive, few-shot examples. These are
+platform-level mechanisms (system prompts via API), not file-level.
+
+## Conclusion
+
+Mode activation through file pointers is not model-independent.
+Achieving uniform behavior across all four tested models via the
+mode-file mechanism alone is not feasible. The mechanism is a Claude-
+native pattern that other models honor partially or not at all.
+
+Practical guidance:
+
+- For Claude: the existing mode mechanism (cache-bust + two-phase) is
+  reliable. Use it.
+- For DeepSeek: add an explicit imperative in the operator's first
+  message ("соблюдай активный режим"). Mode activates, but verify
+  source-tracking fields manually — they may include confabulation.
+- For ChatGPT and Gemini: do not rely on file-based mode activation.
+  Use platform-level system prompts or in-message instructions per
+  reply.
+
+## Two conditions (for models that honor file-based modes)
 
 ### 1. Cache-bust on the entry URL
 
@@ -33,65 +76,45 @@ https://github.com/<owner>/<repo>?nocache=<unique-string>
 ```
 
 The query string is ignored by GitHub's rendering — only Fastly's
-cache layer cares about it. The string can be any value unique enough
-to miss the cache key; a date stamp such as `20260504` is sufficient.
-A version increment (`20260504a`, `20260504b`) keeps successive tests
-on the same day from sharing a key.
+cache layer cares about it. Without this, fresh sessions may receive
+a CDN-cached README from before the current Active mode pointer
+existed, and the mode contract is never seen by the LLM.
 
-Without this, the fresh session may receive a Fastly-cached README
-from hours or a day earlier, missing the current Active mode pointer
-entirely. The mode contract is then never seen by the LLM and the
-experiment fails silently — looking like an architectural failure
-when it is actually a stale-cache failure.
-
-See `fetching.md`, "Operator-side rule", for the broader context on
-CDN-mediated staleness.
+See `fetching.md`, "Operator-side rule".
 
 ### 2. Two-phase activation
 
-The first message in the fresh session contains **only** the entry-
-point URL (with cache-bust, per condition 1). No task, no preamble,
-no additional instructions. The LLM's first response acknowledges
-the active mode — typically by following the "Required first response"
-procedure that each mode file specifies.
+The first message contains only the entry-point URL (with cache-bust).
+The LLM reads, acknowledges the mode, and waits. The second message
+poses the actual task.
 
-Only in the **second** message does the operator pose the actual task.
-
-Without this separation, the LLM tends to answer the task in default
-style without operationalizing the mode rules — the task collapses
-the activation phase. With separation, the mode is acknowledged in
-the first response, which forces the LLM to read and process the mode
-file before any task-related reasoning competes for attention.
+For DeepSeek specifically, also include a short imperative in the
+first message such as "соблюдай активный режим".
 
 ## What individual mode files must include
 
-For the contract to work, each `mode-<name>.md` file must specify:
+For the contract to work where it works at all, each `mode-<name>.md`
+must specify:
 
-1. **The format rule itself** — what the LLM must do differently from
-   default behavior.
-2. **A "Required first response" section** — the exact form (or close
-   to exact) of what the LLM should reply when the operator's first
-   message is just the entry URL. This is what makes the two-phase
-   activation testable.
-3. **Recognition criteria for success and failure** — observable
-   outcomes, not subjective ones.
-4. **A Resolution section** — initially empty, filled in when the mode
-   ends, recording whether the experiment succeeded, failed, or was
-   discarded for other reasons.
-
-## What the contract does not promise
-
-- That the LLM will sustain the mode rule across very long sessions.
-- That the LLM will resist explicit operator overrides.
-- That every model will operationalize a read mode file. See caveat
-  at top of this document.
+1. **The format rule itself** — what the LLM must do differently.
+2. **A "Required first response" section** — exact form of the
+   acknowledgement when first message is just the entry URL.
+3. **Recognition criteria** for success and failure.
+4. **A Resolution section** — empty initially, filled when the mode
+   ends.
 
 ## History
 
 Earlier on 2026-05-04, three iterations of `mode-json` and one of
-`mode-numbering` were run without the contract above and all failed.
-The Resolution at that time concluded that file-pointer-based mode
-switching could not change response format. That conclusion was wrong:
-subsequent retests with cache-bust + two-phase activation succeeded
-on both modes (Claude). DeepSeek subsequently failed to activate the
-JSON mode under the same contract — added to the caveat section.
+`mode-numbering` failed under naive activation (no cache-bust, single-
+message bundle of URL + task). Retroactively diagnosed as CDN-mediated.
+Subsequent retests with cache-bust + two-phase succeeded on Claude.
+Cross-model testing on DeepSeek, ChatGPT, and Gemini then narrowed
+the conclusion: mechanism is Claude-reliable, DeepSeek-conditional
+(with caveats), ChatGPT-rejected, Gemini-simulated.
+
+Two experimental variants in this investigation —
+`mode-json-operator-voice.md` (first-person operator voice in the
+file) and `prompt-json.md` (file phrased as a direct prompt) — both
+failed to lower DeepSeek's activation threshold. They are deleted;
+their Resolutions live in git history.
