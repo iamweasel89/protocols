@@ -55,6 +55,7 @@ seed your fetcher with these:
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-queue.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/fetching.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/hygiene-log.md?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/queue.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-default.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-template.md?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-activation.md?nocache=1
@@ -109,6 +110,9 @@ are JSON molecules: reflections, meta-specs, machines.
   hidden content).
 - **`memory-queue.md`** — cross-project queue of pending refinements
   to the memory concept itself.
+- **`queue.md`** — list of pending items carried across sessions.
+  Items obsуждаются и оформляются в течение работы; queue keeps
+  the list outside the chat so it survives session transfers.
 - **`hygiene-log.md`** — running log of staleness/overlap observations
   made by visiting sessions; processed in batches by the operator.
   See "Anti-rot discipline" in `project-memory.md`.
