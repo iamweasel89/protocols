@@ -148,9 +148,10 @@ which lists available scenarios; the operator picks a number, the
 LLM follows the path of the chosen item.
 
 - **`menu/main.json`** — entry-point dispatcher. One item so far
-  (availability test, draft). Established 2026-05-04.
-- **`menu/scenario-availability-test.md`** — stub for the first
-  scenario. Will be populated next.
+  (availability test, active). Established 2026-05-04.
+- **`menu/scenario-availability-test.md`** — first active scenario.
+  Fresh LLM walks through Direct entry URLs from README, fetches each,
+  outputs a JSON availability report.
 
 ## Active instances
 

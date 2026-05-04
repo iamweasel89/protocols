@@ -14,7 +14,7 @@
       "name": "Тест доступности файлов",
       "summary": "свежая ЛЛМ проверяет, какие файлы из протокольного репо доступны через её фетч-инструмент, и выдаёт отчёт в JSON",
       "path": "https://raw.githubusercontent.com/iamweasel89/protocols/main/menu/scenario-availability-test.md?nocache=1",
-      "status": "draft"
+      "status": "active"
     }
   ],
 
