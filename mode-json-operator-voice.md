@@ -114,4 +114,9 @@ changed by this experiment.
 
 ## Resolution
 
-<Filled in when the experiment ends.>
+Discarded 2026-05-04. First-person operator voice inside a file does
+not activate JSON mode in DeepSeek. The model reads the file, names
+it as an experiment over its own behavior, and replies in prose.
+Conclusion: voice/framing inside a file is not the load-bearing
+variable. DeepSeek separates "directive in file" from "directive in
+operator's reply" by location, not by phrasing.
