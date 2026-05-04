@@ -56,10 +56,17 @@ Empty arrays are written as `[]`, not omitted. Empty strings as `""`.
 This forces the LLM to consciously affirm "no claims from this source"
 rather than glossing.
 
-## Required first response
+## Activation
 
-When the operator's first message is just the entry-point URL, with
-no task attached, respond with this exact JSON object:
+This mode activates whenever the operator's first message in the
+session references this protocols repo (whether the message is just
+the entry-point URL, or the URL plus a task, or any wording that points
+at the active mode). Once active, **every** response in the session is
+a single JSON object per the schema above — no exceptions for
+follow-up tasks, clarifications, or meta-discussion.
+
+When the first message is just the entry-point URL with no task,
+respond with this exact acknowledgement object:
 
 ```json
 {

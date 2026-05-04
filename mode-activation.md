@@ -11,10 +11,16 @@ modes failed under the naive activation pattern and succeeded under
 the contract below — establishing the contract, not the mode files,
 as the load-bearing element.
 
-Caveat: model-dependent. Confirmed working on Claude. DeepSeek (instant
-and expert modes, 2026-05-04) read mode files but did not change
-response format. Activation appears to require model behavior that not
-all LLMs share. Treat the contract as necessary but not sufficient.
+Note on activation thresholds across models. Empirically (2026-05-04),
+Claude activates a mode under either of the two conditions alone in
+this document; DeepSeek requires both conditions plus a content task
+in the first message — bare URL alone, even with cache-bust, did not
+trigger activation in DeepSeek (instant and expert modes). The mode
+mechanism itself works on both models; what differs is the threshold
+at which the mode file is treated as a binding contract rather than
+descriptive text. To minimize cross-model divergence, design mode
+files so that any reference to them in the first message activates the
+mode, not only the bare-URL form.
 
 ## Two conditions
 

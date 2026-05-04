@@ -35,9 +35,9 @@ under the activation contract specified in `mode-activation.md`.
 Two conditions: cache-bust on the entry URL, and two-phase
 activation (URL alone in first message, task in second).
 
-Caveat: model-dependent. Confirmed on Claude. DeepSeek does not
-activate read mode files in instant or expert modes. See
-`mode-activation.md` caveat section.
+Note: activation threshold differs across models. Claude activates on
+a bare entry URL; DeepSeek needs the URL plus a content task. See
+`mode-activation.md` for the full threshold note and design guidance.
 
 ## How experimental modes resolve
 
