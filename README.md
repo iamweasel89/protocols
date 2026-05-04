@@ -64,6 +64,7 @@ seed your fetcher with these:
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/how-an-artifact-is-born.json?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/machine-spec-meta.json?nocache=1
 - https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/json-wrap-spec.json?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/menu/main.json?nocache=1
 
 ## Index
 
@@ -138,6 +139,18 @@ conventions and operator-facing map.
   verbatim and separating LLM's own interpretation. Activated via
   cache-bust + two-phase by Claude; needs explicit imperative for
   DeepSeek and other models. 2026-05-04.
+
+### Menu
+
+Folder for entry-point menus that route a fresh LLM session into
+a chosen working scenario. The main file is `menu/main.json`,
+which lists available scenarios; the operator picks a number, the
+LLM follows the path of the chosen item.
+
+- **`menu/main.json`** — entry-point dispatcher. One item so far
+  (availability test, draft). Established 2026-05-04.
+- **`menu/scenario-availability-test.md`** — stub for the first
+  scenario. Will be populated next.
 
 ## Active instances
 
