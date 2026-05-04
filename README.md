@@ -44,28 +44,28 @@ If a fetch fails (404, "URL not allowed", or similar), see
 If your fetch tool only follows URLs that appear in prior results,
 seed your fetcher with these:
 
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/agent-discipline.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/launch-block.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/conversation-format.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/dates-discipline.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/project-memory.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/mobile-app-android.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-landscape.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-scaling.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-queue.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/fetching.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/hygiene-log.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/queue.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-default.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-template.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-activation.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/README.md?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/what-makes-an-artifact-good.json?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/atoms-of-project-memory.json?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/how-an-artifact-is-born.json?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/machine-spec-meta.json?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/json-wrap-spec.json?nocache=1
-- https://raw.githubusercontent.com/iamweasel89/protocols/main/menu/main.json?nocache=1
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/agent-discipline.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/launch-block.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/conversation-format.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/dates-discipline.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/project-memory.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/mobile-app-android.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-landscape.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-scaling.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/memory-queue.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fetching.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/hygiene-log.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/queue.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-default.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-template.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/mode-activation.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/README.md?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/what-makes-an-artifact-good.json?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/atoms-of-project-memory.json?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/how-an-artifact-is-born.json?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/machine-spec-meta.json?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/fragments/json-wrap-spec.json?nocache=20260504a
+- https://raw.githubusercontent.com/iamweasel89/protocols/main/menu/main.json?nocache=20260504a
 
 ## Index
 
