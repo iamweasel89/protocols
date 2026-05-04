@@ -7,7 +7,7 @@ repos don't duplicate them.
 
 ## Active mode
 
-**Current:** numbering (see `mode-numbering.md`) — active experiment: tests whether two-phase activation (entry URL alone in first message, task in second) makes mode rules effective. Mechanism explainer: `mode-default.md`.
+**Current:** json (see `mode-json.md`) — re-run of the JSON response experiment after the mode mechanism was vindicated by `mode-numbering`. Tests whether the same activation contract works for a more demanding format rule.
 
 Modes are named configurations of the protocol set, used when an
 experiment needs isolation from daily work. Switching modes is one
