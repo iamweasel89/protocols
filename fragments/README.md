@@ -107,8 +107,10 @@ for the operator's explicit position on this.
   for how an artifact is born; this fragment unrolls it from a sum
   into a trace through inputs, LLM, candidate, operator, application,
   system change. Created 2026-05-04. Extends `what-makes-an-artifact-good`.
-- **`machine-spec-meta.json`** (v2) — first meta-spec in the system.
+- **`machine-spec-meta.json`** (v3) — first meta-spec in the system.
   Defines what a machine is (JSON contract with input/process/output)
-  and how to build one. New fragment_type: `meta_spec`. v2 adds the
+  and how to build one. New fragment_type: `meta_spec`. v2 added the
   input-vs-process discipline rule after empirical testing across
-  three LLMs. Created 2026-05-04.
+  three LLMs; v3 added invocation_template — a wrapping prompt with
+  placeholders, so operators do not rewrite the wrapper each time.
+  Created 2026-05-04.

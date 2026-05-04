@@ -1,7 +1,7 @@
 {
   "fragment_type": "meta_spec",
   "fragment_id": "machine-spec-meta",
-  "version": 2,
+  "version": 3,
   "created": "2026-05-04",
   "source_message": "operator turn after testing v1 of meta-spec on three LLMs (Claude, ChatGPT, DeepSeek); all three produced valid new-leaf-spec.json, but two of them left a hidden gap — they declared filesystem-scanning as a step in process_signature, when in fact the LLM building the launch block has no filesystem access and would have to guess. Claude alone caught this and required parent_children_snapshot in the input.",
   "context": "the system already has describing artifacts (agent-discipline, project-memory, launch-block.md) and realizing artifacts (mode files via mode-activation contract). this fragment introduces a third class — generating artifacts, called machines. a machine is a JSON contract that, given a defined input, produces a defined output via an LLM. this meta-spec defines what a machine is in this system and how to construct one. v2 adds explicit input-vs-process discipline after empirical testing.",
@@ -90,6 +90,42 @@
     "from": "model"
   },
 
+  "invocation_template": {
+    "summary": "the operator (or another machine) uses this template to invoke this meta-spec for building a new machine. five blocks correspond to four prerequisites_for_use plus the task statement. the meta-spec itself is appended at the end. without this template, every operator has to reinvent the wrapping prompt; with it, only the four content blocks need to be filled.",
+    "template": "Тебе передаётся meta-spec — JSON-документ, описывающий, как из повторяющихся задач строить машины. Машина в этой системе — JSON-контракт с входом, процессом и выходом, который превращает структурированный вход в структурированный выход через ЛЛМ.\n\nТвоя задача: построить из meta-spec одну конкретную машину. Машина называется `<MACHINE_NAME>` и предназначена для `<TASK_ONE_SENTENCE>`.\n\nНиже четыре раздела контекста, которые тебе нужны (это `prerequisites_for_use` из meta-spec). После них — сама meta-spec. Действуй по `build_procedure` из meta-spec, шаги 1–4. Шаги 5 (тест на свежей ЛЛМ) и 6 (коммит) пропусти — они вне твоих возможностей. Верни готовый `<MACHINE_NAME>.json` в виде валидного JSON-объекта, без прозы вокруг.\n\n=== РАЗДЕЛ 1. ОБЗОР СИСТЕМЫ ===\n\n<SYSTEM_OVERVIEW>\n\n=== РАЗДЕЛ 2. СПЕЦИФИКА ЦЕЛЕВОГО ЖАНРА ===\n\n<TARGET_GENRE>\n\n=== РАЗДЕЛ 3. USE CASE ===\n\n<USE_CASE>\n\n=== РАЗДЕЛ 4. РЕАЛЬНЫЙ ПРИМЕР ===\n\n<REAL_EXAMPLE>\n\n=== META-SPEC НИЖЕ ===\n\n<META_SPEC_JSON>",
+    "placeholders": [
+      {
+        "name": "MACHINE_NAME",
+        "description": "имя строящейся машины, например new-leaf-spec; станет filename машины"
+      },
+      {
+        "name": "TASK_ONE_SENTENCE",
+        "description": "одна фраза о повторяющейся задаче, для которой строится машина"
+      },
+      {
+        "name": "SYSTEM_OVERVIEW",
+        "description": "обзор репо протоколов: что есть, как организовано, как связано с активными экземплярами. соответствует prerequisites_for_use.system_overview"
+      },
+      {
+        "name": "TARGET_GENRE",
+        "description": "формат целевого жанра — те протоколы, по чьим правилам будет строиться выход машины. соответствует prerequisites_for_use.target_genre_specifics"
+      },
+      {
+        "name": "USE_CASE",
+        "description": "что подаётся машине на вход, что машина возвращает. соответствует prerequisites_for_use.use_case"
+      },
+      {
+        "name": "REAL_EXAMPLE",
+        "description": "хотя бы один реальный прошлый случай той же задачи: что говорил оператор, что выдала ЛЛМ, что закоммичено. соответствует prerequisites_for_use.one_real_example"
+      },
+      {
+        "name": "META_SPEC_JSON",
+        "description": "полный текст этого JSON-файла, вставленный в конец промпта"
+      }
+    ],
+    "use_with_machines_other_than_meta": "this template is meta-spec specific. an individual machine (e.g. new-leaf-spec) may want its own invocation_template if invocation patterns repeat. add when needed, do not pre-design.",
+    "from": "operator_observation_and_model_design_2026_05_04"
+  },
   "machine_template": {
     "description": "the obligatory shape of any machine produced from this meta-spec. each field has its purpose; do not omit fields.",
     "fields": [
@@ -230,6 +266,10 @@
     "where to store machines — alongside fragments/ or in a separate machines/ folder. format suggests a separate folder, but not yet decided.",
     "whether machines should be tested for detachment the same way fragments are (one-shot read by fresh LLM) or differently (full input-output cycle).",
     "whether the meta-spec itself counts as a machine that produces machines (yes by definition) or as a meta-level above all machines (which would mean its own genre)."
+  ],
+
+  "v3_changes": [
+    "added invocation_template — wrapping prompt that uses placeholders for the four prerequisites_for_use; lets operators invoke the meta-spec without rewriting the wrapper each time"
   ],
 
   "v2_changes": [
