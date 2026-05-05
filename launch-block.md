@@ -283,3 +283,74 @@ checks the output, then proceeds to block 2.
   commit-SHA URL, blob-HTML extraction, request the operator to bust
   cache via a contentful diff).
 
+
+
+## Cache-bust hygiene
+
+Когда launch block правит файл, на который есть ссылка из
+`protocols/README.md` Direct entry URLs или из активного
+`menu/main.json` (поле `path`) — в **том же** launch block
+обновляй cache-bust ключ во всех таких ссылках на свежее
+значение.
+
+Зачем. Fastly кэширует raw.githubusercontent.com по полному URL
+включая query string. Если ключ остаётся прежним, новая версия
+файла на CDN не обновляется, и свежая ЛЛМ-сессия скачивает
+застрявшую старую запись. Эмпирически подтверждено сегодня
+2026-05-04 (см. queue.md, пункт 16).
+
+Правило значения. Свежее значение — это сегодняшняя дата плюс
+буква серии: `?nocache=YYYYMMDDx`, где `x` — `a` для первой
+правки в день, `b` для второй, и так далее. Если ты не знаешь,
+была ли уже правка сегодня — посмотри текущее значение в
+`README.md`; если оно сегодняшнее, бери следующую букву; если
+вчерашнее или старее — бери `a`.
+
+Что обновлять.
+
+- В `protocols/README.md` — все строки в секции
+  `### Direct entry URLs`, ведущие на этот файл.
+- В `menu/main.json` — поле `path` любого item, ведущего на
+  этот файл.
+- Если файл сам ссылается на другие файлы с cache-bust — пройти
+  и там.
+
+PowerShell-фрагмент для замены (вставлять в каждый launch block,
+который правит «отслеживаемые» файлы — а это любые файлы,
+видимые из README или из main.json):
+
+```powershell
+$oldBust = "?nocache=YYYYMMDDx"   # текущее значение, посмотри в README
+$newBust = "?nocache=YYYYMMDDy"   # свежее значение
+
+# README.md
+$rmPath = "$PWD\README.md"
+$rmContent = [System.IO.File]::ReadAllText($rmPath, $utf8NoBom)
+$rmContent = $rmContent.Replace($oldBust, $newBust)
+[System.IO.File]::WriteAllText($rmPath, $rmContent, $utf8NoBom)
+
+# menu/main.json (если затрагивает меню)
+$mainPath = "$PWD\menu\main.json"
+if (Test-Path $mainPath) {
+    $mainContent = [System.IO.File]::ReadAllText($mainPath, $utf8NoBom)
+    $mainContent = $mainContent.Replace($oldBust, $newBust)
+    [System.IO.File]::WriteAllText($mainPath, $mainContent, $utf8NoBom)
+}
+```
+
+Чего НЕ делать.
+
+- Не оставлять `?nocache=1` или другой константный ключ — Fastly
+  его кэширует так же, как обычный URL.
+- Не генерировать ключ случайным образом — оператор должен
+  иметь возможность повторить тот же URL вручную, поэтому ключ
+  должен быть детерминированно-вычислимым (дата+буква).
+- Не пропускать обновление, думая «Fastly когда-нибудь сам
+  обновится». Не обновится в разумное время.
+
+Открытое место (queue, пункт 16). Настоящий cache-bust требует
+уникального значения **при каждом обращении**. Этого можно
+добиться только инструкцией ЛЛМ генерировать значение в моменте
+обращения (поле `behavior_on_route`). Это лежит в очереди.
+До тех пор настоящий обзор раздела — приведённая выше
+дисциплина «свежее значение при каждой правке».
